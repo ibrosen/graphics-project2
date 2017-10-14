@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 	
-	public float moveSpeed = 100;
-
+	private float moveSpeed = 10;
 
 	// Update is called once per frame
 	void Update () {
+		float rollSpeed = moveSpeed * 10;
 
 		// KEY MOVEMENTS (forwards, backwards, right, left, roll)
 
@@ -22,11 +22,13 @@ public class PlayerMovement : MonoBehaviour {
 
 		// Move camera right
 		} else if (Input.GetKey(KeyCode.RightArrow)) {
-			this.transform.localPosition += this.transform.right * Time.deltaTime * moveSpeed;
+			this.transform.RotateAround(transform.position, transform.up, Time.deltaTime * rollSpeed);
+//			this.transform.localPosition += this.transform.right * Time.deltaTime * moveSpeed;
 
 		// Move camera left
 		} else if (Input.GetKey(KeyCode.LeftArrow)) {
-			this.transform.localPosition -= this.transform.right * Time.deltaTime * moveSpeed;
+			this.transform.RotateAround(transform.position, transform.up, -1 * Time.deltaTime * rollSpeed);
+//			this.transform.localPosition -= this.transform.right * Time.deltaTime * moveSpeed;
 		}
 
 	}
