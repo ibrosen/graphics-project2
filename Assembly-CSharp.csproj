@@ -46,8 +46,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\GenerateObjects.cs" />
+     <Compile Include="Assets\PickupObject.cs" />
      <Compile Include="Assets\PlayerMovement.cs" />
      <Compile Include="Assets\PointLight.cs" />
+     <Compile Include="Assets\ProtoPack\Scripts\OpenAnimTest.cs" />
+     <Compile Include="Assets\ProtoPack\Scripts\PlayerJumpTest.cs" />
      <Compile Include="Assets\SunMove.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
