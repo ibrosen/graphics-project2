@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour {
 				// be the difference between the projected mouse position and the player
 				// position so that it effectively travels towards the mouse.
 				ProjectileController p = Instantiate<ProjectileController>(projectilePrefab);
-				p.transform.position = this.transform.position + this.transform.forward.normalized;
+				p.transform.position = this.transform.position + this.transform.forward.normalized * 1.4f + Vector3.up * 0.5f;
 				p.velocity = (this.transform.forward).normalized * 10.0f;
 			}
 		}
