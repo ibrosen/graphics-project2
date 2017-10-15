@@ -25,8 +25,9 @@ public class MoveToPlayer : MonoBehaviour {
         {
 
             var DistVector = (player.transform.position - this.transform.position).normalized/60;
-			DistVector = new Vector3(DistVector.x, 0, DistVector.z);
+			DistVector = new Vector3(DistVector.x, 0.0f, DistVector.z);
             this.transform.position += DistVector * speed;
+			this.transform.forward = DistVector;
 
             currElapsed = 0;
         }
