@@ -9,6 +9,7 @@ public class GenerateObjects : MonoBehaviour {
 	public int itemQuantity;
 	public float itemSpacing;
 	public float y;
+	public bool rotate;
 
 	// Internal parameters/variables
 	private float islandBoundary;
@@ -19,6 +20,20 @@ public class GenerateObjects : MonoBehaviour {
 	void Start () {
 		GenerateSwarm();
 		
+	}
+
+	// Update
+	void Update () {
+		// Rotate the objects if required
+		if (rotate) {
+			int childCount = this.transform.childCount;
+			GameObject child;
+
+			for (int i = 0; i < childCount; i++) {
+				child = this.transform.GetChild(i).gameObject;
+				child.transform.Rotate (new Vector3 (0, 200, 0) * Time.deltaTime);
+			}
+		}
 	}
 
 	// Method to automatically generate swarm of enemies based on the set public attributes

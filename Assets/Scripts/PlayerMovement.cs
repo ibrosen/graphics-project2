@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		float rollSpeed = moveSpeed * 10;
+		float rollSpeed = moveSpeed * 15;
 
 		// TRANSLATION
 		// Move camera forwards
@@ -37,26 +37,18 @@ public class PlayerMovement : MonoBehaviour {
 		}
 
 		// SHOOTING
-		if (Input.GetKey(KeyCode.Space))
-		{
-			sinceLastShot += Time.deltaTime;
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			StatusBar statusBar = this.gameObject.GetComponent<StatusBar>();
 
-			PickupObject pickup = this.gameObject.GetComponent<PickupObject>();
-			if(sinceLastShot >= 0.25 && pickup.HasRocks())
-			{
-				pickup.DecrementRocks();
-				sinceLastShot = 0;
+			if(statusBar.HasBullets()) {
+				statusBar.shootBullet();
 				Vector3 fireToWorldPos = this.transform.localRotation.eulerAngles;
 
-				// Finally we create a new projectile instance, and set its velocity to
-				// be the difference between the projected mouse position and the player
-				// position so that it effectively travels towards the mouse.
 				ProjectileController p = Instantiate<ProjectileController>(projectilePrefab);
 				p.transform.position = this.transform.position + this.transform.forward.normalized * 1.4f + Vector3.up * 0.5f;
-				p.velocity = (this.transform.forward).normalized * 10.0f;
+				p.velocity = (this.transform.forward).normalized * 20.0f;
 			}
 		}
-
 	}
 
 	void RestrictToBoundaries() {
@@ -74,19 +66,4 @@ public class PlayerMovement : MonoBehaviour {
 		this.transform.position = pos;
 
 	}
-
-	void OnTriggerEnter(Collider col)
-	{
-		if (col.gameObject.tag == "Enemy")
-		{
-			// Damage object with relevant tag
-			HealthManager healthManager = this.gameObject.GetComponent<HealthManager>();
-			healthManager.ApplyDamage(1);
-			Debug.Log(healthManager.GetHealth());
-
-			// Destroy self
-			Destroy(col.gameObject);
-		}
-	}
-
 }
