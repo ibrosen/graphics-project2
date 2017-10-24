@@ -17,12 +17,12 @@ public class ProjectileController : MonoBehaviour
     }
 
     // Handle collisions
-    void OnTriggerEnter(Collider col)
+	void OnCollisionEnter(Collision other)
     {
-        if (col.gameObject.tag == tagToDamage)
+        if (other.gameObject.tag == tagToDamage)
         {
             // Damage object with relevant tag
-            HealthManager healthManager = col.gameObject.GetComponent<HealthManager>();
+            HealthManager healthManager = other.gameObject.GetComponent<HealthManager>();
             healthManager.ApplyDamage(damageAmount);
 
             // Destroy self

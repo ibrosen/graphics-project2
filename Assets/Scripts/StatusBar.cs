@@ -13,13 +13,13 @@ public class StatusBar : MonoBehaviour {
 	private float maxHealth = 100;
 	private string healthName = "Health: ";
 
-	// Food
-	public Image foodBar;
-	public Text foodRatio;
+	// energy
+	public Image energyBar;
+	public Text energyRatio;
 
-	private float foodStatus = 0;
-	private float maxFood = 100;
-	private string foodName = "Food: ";
+	private float energyStatus = 100;
+	private float maxEnergy = 100;
+	private string energyName = "Energy: ";
 
 	// Bullets
 	public Image bulletBar;
@@ -29,10 +29,11 @@ public class StatusBar : MonoBehaviour {
 	private float maxBullets = 100;
 	private string bulletsName = "Bullets: ";
 
+	public CanvasGroup intro;
 
 	private void Start() {
 		UpdateBar("health", healthStatus);
-		UpdateBar("food", foodStatus);
+		UpdateBar("energy", energyStatus);
 		UpdateBar("bullets", bulletsStatus);
 	}
 
@@ -48,11 +49,11 @@ public class StatusBar : MonoBehaviour {
 			ratioText = healthRatio;
 			name = healthName;
 
-		} else if (type.Equals("food")) {
-			ratio = status / maxFood;
-			currentBar = foodBar;
-			ratioText = foodRatio;
-			name = foodName;
+		} else if (type.Equals("energy")) {
+			ratio = status / maxEnergy;
+			currentBar = energyBar;
+			ratioText = energyRatio;
+			name = energyName;
 
 		} else if (type.Equals("bullets")) {
 			ratio = status / maxBullets;
@@ -67,7 +68,7 @@ public class StatusBar : MonoBehaviour {
 		ratioText.text = name + (ratio * 100).ToString("0");
 	}
 
-	void OnTriggerEnter(Collider other) {
+	void OnCollisionEnter(Collision other) {
 		if (other.gameObject.tag.Equals("Enemy")) {
 			DecrementBar(5, "health");
 			Destroy(other.gameObject);
@@ -77,7 +78,7 @@ public class StatusBar : MonoBehaviour {
 			other.gameObject.SetActive (false);
 
 			if (other.gameObject.name.Contains("Coconut")) {
-				IncrementBar(2, "food");
+				IncrementBar(2, "energy");
 			} else if (other.gameObject.name.Contains("Rock")) {
 				IncrementBar(3, "bullets");
 			}
@@ -95,12 +96,12 @@ public class StatusBar : MonoBehaviour {
 			UpdateBar(type, healthStatus);
 		}
 
-		if (type.Equals("food")) {
-			foodStatus -= decrement;
-			if (foodStatus < 0) {
-				foodStatus = 0;
+		if (type.Equals("energy")) {
+			energyStatus -= decrement;
+			if (energyStatus < 0) {
+				energyStatus = 0;
 			}
-			UpdateBar(type, foodStatus);
+			UpdateBar(type, energyStatus);
 		}
 
 		if (type.Equals("bullets")) {
@@ -122,12 +123,12 @@ public class StatusBar : MonoBehaviour {
 			UpdateBar(type, healthStatus);
 		}
 
-		if (type.Equals("food")) {
-			foodStatus += increment;
-			if (foodStatus > maxFood) {
-				foodStatus = maxFood;
+		if (type.Equals("energy")) {
+			energyStatus += increment;
+			if (energyStatus > maxEnergy) {
+				energyStatus = maxEnergy;
 			}
-			UpdateBar(type, foodStatus);
+			UpdateBar(type, energyStatus);
 		}
 
 		if (type.Equals("bullets")) {
@@ -147,5 +148,23 @@ public class StatusBar : MonoBehaviour {
 	public bool HasBullets() {
 		if (bulletsStatus > 0) return true;
 		return false;
+	}
+
+	public float getEnergyRatio() {
+		return energyStatus/maxEnergy;
+	}
+
+	private float timePassed = 0.0f;
+
+	// Decrease energy over time
+	void Update() {
+		timePassed += Time.deltaTime;
+
+		// Decrease energy every 2 seconds
+		if (intro.alpha == 0 && timePassed >= 1) {
+			timePassed = 0;
+			DecrementBar(1, "energy");
+		}
+
 	}
 }

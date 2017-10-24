@@ -4,26 +4,27 @@ using UnityEngine.Events;
 
 public class SwarmManager : MonoBehaviour {
 
+	public CanvasGroup intro;
+
     // External parameters/variables
     public GameObject enemyTemplate;
     private float currElapsed = 0;
     private int distFromPlayer = 20;
 	private int secondsBetweenCreate = 2;
-	// Use this for initialization
-	void Start () {
-        
-	}
 	
 	// Update is called once per frame
 	void Update () {
-        currElapsed += Time.deltaTime;
 
-		if(currElapsed >= secondsBetweenCreate)
-        {
-            currElapsed = 0;
-            CreateEnemy();
-        }
+		// Only create enemies if the intro screen is not showing
+		if (intro.alpha == 0) {
+			currElapsed += Time.deltaTime;
 
+			if(currElapsed >= secondsBetweenCreate)
+			{
+				currElapsed = 0;
+				CreateEnemy();
+			}
+		}
         
 	}
 
@@ -39,6 +40,7 @@ public class SwarmManager : MonoBehaviour {
         enemy.transform.localPosition = new Vector3(Mathf.Sin(rand), 0, Mathf.Cos(rand));
         enemy.transform.localPosition *= distFromPlayer;
         enemy.transform.localPosition += v.transform.position;
+		enemy.transform.localPosition = new Vector3(enemy.transform.localPosition.x, -0.5f, enemy.transform.localPosition.z);
         MoveToPlayer m = enemy.GetComponent<MoveToPlayer>();
         m.speed = Random.Range(1, 4);
         //Debug.Log(enemy.transform.localPosition);
@@ -60,6 +62,5 @@ public class SwarmManager : MonoBehaviour {
 			Destroy(enemy.gameObject);
 		}
 	}
-
     
 }

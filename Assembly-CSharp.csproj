@@ -95,12 +95,14 @@
      <Compile Include="Assets\Downloaded Assets\Standard Assets\Water\Water\Scripts\Water.cs" />
      <Compile Include="Assets\Downloaded Assets\Standard Assets\Water\Water\Scripts\WaterBase.cs" />
      <Compile Include="Assets\Downloaded Assets\Standard Assets\Water\Water\Scripts\WaterTile.cs" />
+     <Compile Include="Assets\Scripts\AcceptLight.cs" />
      <Compile Include="Assets\Scripts\DELETE\HealthManager.cs" />
      <Compile Include="Assets\Scripts\DELETE\PickupObject.cs" />
      <Compile Include="Assets\Scripts\DELETE\PlayerController.cs" />
      <Compile Include="Assets\Scripts\DestroyIfOffscreen.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\GenerateObjects.cs" />
+     <Compile Include="Assets\Scripts\IntroScreen.cs" />
      <Compile Include="Assets\Scripts\MoveToPlayer.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\PointLight.cs" />
@@ -160,6 +162,7 @@
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlur.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Water\Water\Shaders\FXWaterPro.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
+     <None Include="Assets\Shader Files\WaterShader.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrainDX11.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableBlur.shader" />
@@ -176,6 +179,7 @@
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA2.shader" />
+     <None Include="Assets\Shader Files\SandShader.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrection3DLut.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\LensFlareCreate.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\EdgeDetectNormals.shader" />

@@ -4,8 +4,8 @@ using System.Collections;
 public class SunMove : MonoBehaviour
 {
 
-	public float radius = 1000;		// the radius of the circle that the sun rotates around (sun follows the circumference)
-    public float speed = 10;		// speed at which the sun moves
+	public float radius;	// the radius of the circle that the sun rotates around (sun follows the circumference)
+    public float speed;		// speed at which the sun moves
 
     // Update is called once per frame
     void Start()

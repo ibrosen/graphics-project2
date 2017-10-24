@@ -9,31 +9,68 @@ public class GenerateObjects : MonoBehaviour {
 	public int itemQuantity;
 	public float itemSpacing;
 	public float y;
-	public bool rotate;
+	public bool spin;
+	public int secondsBetweenCreate;
+	public bool gradualSpawning;
+	public CanvasGroup intro;
 
 	// Internal parameters/variables
 	private float islandBoundary;
 	private ArrayList xValues;
 	private ArrayList zValues;
+	private float currElapsed = 0;
 
 	// Use this for initialization
 	void Start () {
-		GenerateSwarm();
-		
+		if (!gradualSpawning) {
+			GenerateSwarm();
+		}
 	}
 
 	// Update
 	void Update () {
-		// Rotate the objects if required
-		if (rotate) {
+
+		if (intro.alpha == 0 && gradualSpawning) {
+				currElapsed += Time.deltaTime;
+
+				if (currElapsed >= secondsBetweenCreate) {
+					currElapsed = 0;
+					GenerateObject();
+				}
+		}
+
+		// Spin the objects if required
+		if (spin) {
 			int childCount = this.transform.childCount;
 			GameObject child;
 
 			for (int i = 0; i < childCount; i++) {
 				child = this.transform.GetChild(i).gameObject;
-				child.transform.Rotate (new Vector3 (0, 200, 0) * Time.deltaTime);
+				child.transform.Rotate(new Vector3(0, 200, 0) * Time.deltaTime);
 			}
 		}
+	}
+
+	private void GenerateObject() {
+
+		// Calculate island generation boundaries so that
+		// the item isn't instantiated on the edge of the island
+		float islandScale = GameObject.Find("Island").GetComponent<Transform>().localScale.x;
+		islandBoundary = islandScale * 5 - itemSpacing;
+
+		// Generate random x and z coordinates between -islandBoundary and islandBoundary
+		float x = Random.Range(-islandBoundary, islandBoundary);
+		float z = Random.Range(-islandBoundary, islandBoundary);
+
+		// Instantiate the individual item
+		GameObject item = GameObject.Instantiate<GameObject>(itemTemplate);
+
+		// Item is made as a child of its swarm
+		item.transform.parent = this.transform;
+
+		// Set the position of the item
+		item.transform.localPosition = new Vector3(x, y, z);
+
 	}
 
 	// Method to automatically generate swarm of enemies based on the set public attributes
