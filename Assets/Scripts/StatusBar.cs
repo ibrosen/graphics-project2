@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -30,6 +31,7 @@ public class StatusBar : MonoBehaviour {
 	private string bulletsName = "Bullets: ";
 
 	public CanvasGroup intro;
+	public GameObject destroyBloodPrefab;
 
 	private void Start() {
 		UpdateBar("health", healthStatus);
@@ -70,28 +72,37 @@ public class StatusBar : MonoBehaviour {
 
 	void OnCollisionEnter(Collision other) {
 		if (other.gameObject.tag.Equals("Enemy")) {
+
+			// Create blood effect
+			GameObject blood = Instantiate(this.destroyBloodPrefab);
+			blood.transform.position = this.transform.position;
+
+
 			DecrementBar(5, "health");
 			Destroy(other.gameObject);
 		}
+	}
+
+	void OnTriggerEnter(Collider other) {
 
 		if (other.gameObject.tag.Equals("pickup")) {
-			other.gameObject.SetActive (false);
+			Destroy(other.gameObject);
 
 			if (other.gameObject.name.Contains("Coconut")) {
-				IncrementBar(2, "energy");
+				IncrementBar(5, "energy");
 			} else if (other.gameObject.name.Contains("Rock")) {
-				IncrementBar(3, "bullets");
+				IncrementBar(10, "bullets");
 			}
 		}
-
 	}
 
 	private void DecrementBar(float decrement, string type) {
 		if (type.Equals("health")) {
 			healthStatus -= decrement;
-			if (healthStatus < 0) {
+			if (healthStatus <= 0) {
 				healthStatus = 0;
-				Debug.Log("Dead!");
+				RestartGame();
+				//Debug.Log("Dead!");
 			}
 			UpdateBar(type, healthStatus);
 		}
@@ -166,5 +177,12 @@ public class StatusBar : MonoBehaviour {
 			DecrementBar(1, "energy");
 		}
 
+	}
+
+	//function to reset the game, sourced from here
+	//http://answers.unity3d.com/questions/1261937/creating-a-restart-button.html
+	private void RestartGame()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name); // loads current scene
 	}
 }

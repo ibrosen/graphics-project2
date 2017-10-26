@@ -18,12 +18,12 @@ public class DestroyIfOffscreen : MonoBehaviour {
 
 		// Get boundary of generated Terrain
 		Vector3 pos;
-		float islandScale = GameObject.Find("Island").GetComponent<Transform>().localScale.x;
-		float boundary = islandScale * 5;
+		float islandScale = GameObject.Find("Island").GetComponent<IslandGenerate>().radius;
+		float boundary = islandScale * 2;
 
 		// Destroy if outside of boundaries
 		pos = this.transform.position;
-		if (Mathf.Abs(pos.x) > boundary || Mathf.Abs(pos.z) > boundary) {
+		if (pos.magnitude >=boundary) {
 			Destroy(this.gameObject);
 		}
 

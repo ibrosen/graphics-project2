@@ -6,7 +6,7 @@ public class MoveToPlayer : MonoBehaviour {
 
     private float currElapsed = 0;
     public float speed = 1;
-    public GameObject player;
+    private GameObject player;
 
     void Start()
     {
@@ -21,15 +21,15 @@ public class MoveToPlayer : MonoBehaviour {
     void Update () {
         currElapsed += Time.deltaTime;
 
-        if (currElapsed >= 1/60)
-        {
+		if (currElapsed >= 1 / 60) {
 
-            var DistVector = (player.transform.position - this.transform.position).normalized/60;
+			var DistVector = (player.transform.position - this.transform.position).normalized / 60;
 			DistVector = new Vector3(DistVector.x, 0.0f, DistVector.z);
-            this.transform.position += DistVector * speed;
+			this.transform.position += DistVector * speed;
 			this.transform.forward = DistVector;
 
-            currElapsed = 0;
-        }
+			currElapsed = 0;
+
+		}
     }
 }

@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
 	public CanvasGroup intro;
 
 	private float maxSpeed = 10;
-	private float boundaryPadding = 3;
+	private float boundaryPadding = 7;
 	public ProjectileController projectilePrefab;
 	private float sinceLastShot = 0;
 
@@ -29,25 +29,31 @@ public class PlayerMovement : MonoBehaviour {
 				moveSpeed = maxSpeed * energyRatio;
 			}
 
+			Vector3 originalPosition;
+
 			// TRANSLATION
 			// Move player forwards
 			if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
+				originalPosition = this.transform.localPosition;
 				this.transform.localPosition += this.transform.forward * Time.deltaTime * moveSpeed;
-				RestrictToBoundaries();
+				RestrictToBoundaries(originalPosition);
 
 				// Move player backwards
 			} else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
+				originalPosition = this.transform.localPosition;
 				this.transform.localPosition -= this.transform.forward * Time.deltaTime * moveSpeed;
-				RestrictToBoundaries();
+				RestrictToBoundaries(originalPosition);
 
 				// Move player left
 			} else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
+				originalPosition = this.transform.localPosition;
 				this.transform.localPosition -= this.transform.right * Time.deltaTime * moveSpeed;
-				RestrictToBoundaries();
+				RestrictToBoundaries(originalPosition);
 
 			} else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
+				originalPosition = this.transform.localPosition;
 				this.transform.localPosition += this.transform.right * Time.deltaTime * moveSpeed;
-				RestrictToBoundaries();
+				RestrictToBoundaries(originalPosition);
 			}
 
 			// ROTATION
@@ -60,14 +66,6 @@ public class PlayerMovement : MonoBehaviour {
 				this.transform.RotateAround(transform.position, transform.up, -1 * Time.deltaTime * rollSpeed);
 
 			}
-
-//			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-//
-//			if (Input.GetAxis("Mouse X") != 0) {
-//				Vector3 playerRotation = ray.GetPoint(10.0f);
-//
-//				this.transform.rotation = Quaternion.LookRotation(new Vector3(playerRotation.x, 0.0f, playerRotation.z) * Time.deltaTime);
-//			}
 
 			// SHOOTING
 			// Shoot with mouse click
@@ -87,19 +85,16 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 
-	void RestrictToBoundaries() {
+	void RestrictToBoundaries(Vector3 originalPostion) {
 
 		// Get boundary of generated Terrain
-		Vector3 pos;
-		float islandScale = GameObject.Find("Island").GetComponent<Transform>().localScale.x;
-		float boundary = islandScale * 5 - boundaryPadding;
+		float radiusBoundary = GameObject.Find("Island").GetComponent<IslandGenerate>().radius - boundaryPadding;
 
 		// Restrict movement to boundaries
-		pos = this.transform.position;
-		pos.x = Mathf.Clamp(pos.x, -boundary, boundary);
-		pos.y = Mathf.Clamp(pos.y, -boundary, boundary);
-		pos.z = Mathf.Clamp(pos.z, -boundary, boundary);
-		this.transform.position = pos;
+		float playerMagnitute = this.transform.position.magnitude;
+		if (playerMagnitute >= radiusBoundary) {
+			this.transform.position = originalPostion;
+		}
 
 	}
 }

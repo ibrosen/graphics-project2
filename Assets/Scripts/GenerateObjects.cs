@@ -9,7 +9,7 @@ public class GenerateObjects : MonoBehaviour {
 	public int itemQuantity;
 	public float itemSpacing;
 	public float y;
-	public bool spin;
+	public bool pickup;
 	public int secondsBetweenCreate;
 	public bool gradualSpawning;
 	public CanvasGroup intro;
@@ -19,28 +19,37 @@ public class GenerateObjects : MonoBehaviour {
 	private ArrayList xValues;
 	private ArrayList zValues;
 	private float currElapsed = 0;
+	private float boundaryPadding = 7;
+
+	private bool isDay;
+	private GameObject sun;
 
 	// Use this for initialization
 	void Start () {
 		if (!gradualSpawning) {
 			GenerateSwarm();
 		}
+
 	}
 
 	// Update
 	void Update () {
 
-		if (intro.alpha == 0 && gradualSpawning) {
-				currElapsed += Time.deltaTime;
+		sun = GameObject.Find("Sun");
 
-				if (currElapsed >= secondsBetweenCreate) {
-					currElapsed = 0;
-					GenerateObject();
-				}
+		isDay = sun.transform.position.y >= 0;
+		if (isDay && intro.alpha == 0 && gradualSpawning) {
+			
+			currElapsed += Time.deltaTime;
+
+			if (currElapsed >= secondsBetweenCreate) {
+				currElapsed = 0;
+				GenerateObject();
+			}
 		}
 
-		// Spin the objects if required
-		if (spin) {
+		// Spin the objects if they are pickup types
+		if (pickup) {
 			int childCount = this.transform.childCount;
 			GameObject child;
 
@@ -49,18 +58,23 @@ public class GenerateObjects : MonoBehaviour {
 				child.transform.Rotate(new Vector3(0, 200, 0) * Time.deltaTime);
 			}
 		}
+
 	}
 
 	private void GenerateObject() {
 
-		// Calculate island generation boundaries so that
-		// the item isn't instantiated on the edge of the island
-		float islandScale = GameObject.Find("Island").GetComponent<Transform>().localScale.x;
-		islandBoundary = islandScale * 5 - itemSpacing;
+		// Get boundary of generated Terrain
+		float radiusBoundary = GameObject.Find("Island").GetComponent<IslandGenerate>().radius - boundaryPadding;
 
-		// Generate random x and z coordinates between -islandBoundary and islandBoundary
-		float x = Random.Range(-islandBoundary, islandBoundary);
-		float z = Random.Range(-islandBoundary, islandBoundary);
+		// Generate random magnitue
+		float randMag = Random.Range(0, radiusBoundary);
+
+		// Generate random angle
+		float randAngle = Random.Range(0, Mathf.PI * 2);
+
+		// Generate random x and z coordinates from random magnitude and angle
+
+		Vector3 randPos = new Vector3(Mathf.Cos(randAngle) * randMag, y, Mathf.Sin(randAngle) * randMag);
 
 		// Instantiate the individual item
 		GameObject item = GameObject.Instantiate<GameObject>(itemTemplate);
@@ -69,7 +83,7 @@ public class GenerateObjects : MonoBehaviour {
 		item.transform.parent = this.transform;
 
 		// Set the position of the item
-		item.transform.localPosition = new Vector3(x, y, z);
+		item.transform.localPosition = randPos;
 
 	}
 
@@ -79,29 +93,25 @@ public class GenerateObjects : MonoBehaviour {
 		xValues = new ArrayList();
 		zValues = new ArrayList();
 
-		// Calculate island generation boundaries so that
-		// the item isn't instantiated on the edge of the island
-		float islandScale = GameObject.Find("Island").GetComponent<Transform>().localScale.x;
-		islandBoundary = islandScale * 5 - itemSpacing;
+		// Get boundary of generated Terrain
+		float radiusBoundary = GameObject.Find("Island").GetComponent<IslandGenerate>().radius - boundaryPadding;
 
 		// Create swarm of enemies in a grid formation
 		for (int i = 0; i < itemQuantity; i++) {
+			
+			// Generate random magnitue
+			float randMag = Random.Range(0, radiusBoundary -3);
 
-			// Generate random x and z coordinates between -islandBoundary and islandBoundary
-			float x = Random.Range(-islandBoundary, islandBoundary);
-			float z = Random.Range(-islandBoundary, islandBoundary);
+			// Generate random angle
+			float randAngle = Random.Range(0, Mathf.PI * 2);
 
-			// Calculate distance between other generated items if it's not the first
-			// item generated, and re-generate random coordinates if items are too close
-//			if (i != 0) {
-//				float[] coordinate = distanceCheck(x, z);
-//				x = coordinate[0];
-//				z = coordinate[1];
-//			}
+			// Generate random x and z coordinates from random magnitude and angle
+			
+			Vector3 randPos = new Vector3(Mathf.Cos(randAngle) * randMag + 3, y, Mathf.Sin(randAngle) * randMag + 3);
 
 			// Store coordinate in ArrayList
-			xValues.Add(x);
-			zValues.Add(z);
+			xValues.Add(randPos.x);
+			zValues.Add(randPos.z);
 
 			// Instantiate the individual item
 			GameObject item = GameObject.Instantiate<GameObject>(itemTemplate);
@@ -110,37 +120,7 @@ public class GenerateObjects : MonoBehaviour {
 			item.transform.parent = this.transform;
 
 			// Set the position of the item
-			item.transform.localPosition = new Vector3(x, y, z);
+			item.transform.localPosition = randPos;
 		}
-	}
-
-	private float calculateDistance(float x1, float z1, float x2, float z2) {
-		return Mathf.Sqrt((x2 - x1) * (x2 - x1) + (z2 - z1) * (z2 - z1));
-	}
-
-	private float[] distanceCheck(float x0, float z0) {
-		float xVal, zVal, distance;
-		float[] coordinate = new float[2];
-
-		for (int j = 0; j < xValues.Count; j++) {
-			xVal = (float) xValues[j];
-			zVal = (float) zValues[j];
-
-			distance = calculateDistance(x0, z0, xVal, zVal);
-
-			if (distance < itemSpacing) {
-				x0 = Random.Range(-islandBoundary, islandBoundary);
-				z0 = Random.Range(-islandBoundary, islandBoundary);
-				float[] recursiveCoordinate = distanceCheck(x0, z0);
-				x0 = recursiveCoordinate[0];
-				z0 = recursiveCoordinate[1];
-			}
-		}
-
-		coordinate[0] = x0;
-		coordinate[0] = z0;
-
-		return coordinate;
-
 	}
 }

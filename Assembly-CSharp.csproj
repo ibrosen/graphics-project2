@@ -96,14 +96,14 @@
      <Compile Include="Assets\Downloaded Assets\Standard Assets\Water\Water\Scripts\WaterBase.cs" />
      <Compile Include="Assets\Downloaded Assets\Standard Assets\Water\Water\Scripts\WaterTile.cs" />
      <Compile Include="Assets\Scripts\AcceptLight.cs" />
-     <Compile Include="Assets\Scripts\DELETE\HealthManager.cs" />
-     <Compile Include="Assets\Scripts\DELETE\PickupObject.cs" />
-     <Compile Include="Assets\Scripts\DELETE\PlayerController.cs" />
      <Compile Include="Assets\Scripts\DestroyIfOffscreen.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\GenerateObjects.cs" />
+     <Compile Include="Assets\Scripts\HealthManager.cs" />
      <Compile Include="Assets\Scripts\IntroScreen.cs" />
+     <Compile Include="Assets\Scripts\IslandGenerate.cs" />
      <Compile Include="Assets\Scripts\MoveToPlayer.cs" />
+     <Compile Include="Assets\Scripts\PickupTimer.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\PointLight.cs" />
      <Compile Include="Assets\Scripts\ProjectileController.cs" />
@@ -135,7 +135,6 @@
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
-     <None Include="Assets\Shader Files\PhongShader.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
@@ -144,7 +143,6 @@
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
-     <None Include="Assets\Shader Files\BasicShader.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
@@ -179,7 +177,6 @@
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA2.shader" />
-     <None Include="Assets\Shader Files\SandShader.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrection3DLut.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\LensFlareCreate.shader" />
      <None Include="Assets\Downloaded Assets\Standard Assets\Effects\ImageEffects\Shaders\EdgeDetectNormals.shader" />
