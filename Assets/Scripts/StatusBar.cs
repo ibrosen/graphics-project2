@@ -89,7 +89,7 @@ public class StatusBar : MonoBehaviour {
 			Destroy(other.gameObject);
 
 			if (other.gameObject.name.Contains("Coconut")) {
-				IncrementBar(5, "energy");
+				IncrementBar(7, "energy");
 			} else if (other.gameObject.name.Contains("Rock")) {
 				IncrementBar(10, "bullets");
 			}
@@ -172,7 +172,7 @@ public class StatusBar : MonoBehaviour {
 		timePassed += Time.deltaTime;
 
 		// Decrease energy every 2 seconds
-		if (intro.alpha == 0 && timePassed >= 1) {
+		if (intro.alpha == 0 && timePassed >= 2) {
 			timePassed = 0;
 			DecrementBar(1, "energy");
 		}
